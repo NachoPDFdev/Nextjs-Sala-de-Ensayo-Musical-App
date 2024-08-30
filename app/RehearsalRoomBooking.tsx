@@ -22,14 +22,16 @@ type Reserva = {
   salaId: number;
   horas: string[];
   instrumentos: { id: number; horaInicio: string; horaFin: string }[];
+  nombreBanda: string;
+  genero: string;
 }
 
 // Data
 const salas: Sala[] = [
-  { id: 1, nombre: "Sala Rock", valorPorHora: 25000 }, // Convertido a $CLP
-  { id: 2, nombre: "Sala Jazz", valorPorHora: 30000 }, // Convertido a $CLP
-  { id: 3, nombre: "Sala Acústica", valorPorHora: 20000 }, // Convertido a $CLP
-  { id: 4, nombre: "Sala Electrónica", valorPorHora: 35000 }, // Convertido a $CLP
+  { id: 1, nombre: "Sala Rock", valorPorHora: 7500 }, // Convertido a $CLP
+  { id: 2, nombre: "Sala Jazz", valorPorHora: 20000 }, // Convertido a $CLP
+  { id: 3, nombre: "Sala Acústica", valorPorHora: 10000 }, // Convertido a $CLP
+  { id: 4, nombre: "Sala Electrónica", valorPorHora: 4500 }, // Convertido a $CLP
 ]
 
 const instrumentos: Instrumento[] = [
@@ -70,6 +72,8 @@ export default function RehearsalRoomBooking() {
   const [instrumentosSeleccionados, setInstrumentosSeleccionados] = useState<{ id: number, horaInicio: string, horaFin: string }[]>([])
   const [reservas, setReservas] = useState<Reserva[]>([])
   const [totalValor, setTotalValor] = useState(0)
+  const [nombreBanda, setNombreBanda] = useState("")
+  const [genero, setGenero] = useState("")
 
   useEffect(() => {
     calcularTotal()
@@ -171,9 +175,14 @@ export default function RehearsalRoomBooking() {
     )
   }
 
+  const resetHoras = () => {
+    setHorasSeleccionadas([])
+    setInstrumentosSeleccionados([])
+  }
+
   const handleReserva = () => {
-    if (salaId === null || horasSeleccionadas.length === 0) {
-      alert("Por favor, selecciona una sala y al menos una hora.")
+    if (salaId === null || horasSeleccionadas.length === 0 || !nombreBanda || !genero) {
+      alert("Por favor, completa todos los campos requeridos.")
       return
     }
 
@@ -182,6 +191,8 @@ export default function RehearsalRoomBooking() {
       salaId,
       horas: horasSeleccionadas,
       instrumentos: instrumentosSeleccionados,
+      nombreBanda,
+      genero,
     }
 
     setReservas([...reservas, nuevaReserva])
@@ -191,6 +202,8 @@ export default function RehearsalRoomBooking() {
     setSalaId(null)
     setHorasSeleccionadas([])
     setInstrumentosSeleccionados([])
+    setNombreBanda("")
+    setGenero("")
   }
 
   const isHoraDisponible = (hora: string) => {
@@ -210,54 +223,107 @@ export default function RehearsalRoomBooking() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Reserva tu sala de ensayo</h1>
+    <div className="w-full p-4 bg-black text-white">
+      <h1 className="text-3xl font-bold mb-6">Music Reserver APP</h1>
 
-      <div className="mb-4">
-        <label className="block mb-2">Fecha:</label>
-        <input 
-          type="date" 
-          value={format(fecha, "yyyy-MM-dd")}
-          onChange={handleDateChange}
-          min={format(new Date(), "yyyy-MM-dd")}
-          max={format(addDays(new Date(), 30), "yyyy-MM-dd")}
-          className="w-full p-2 border rounded date-input" // Añadido 'date-input' para estilos
-          onClick={(e) => e.currentTarget.showPicker()} // Despliega el calendario al hacer clic
-        />
+      {/* Reservas Actuales */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Reservas actuales</h2>
+        {reservas.map((reserva, index) => (
+          <div key={index} className="mb-2 p-2 border rounded">
+            <p>Fecha: {format(reserva.fecha, "dd 'de' MMMM", { locale: es })}</p>
+            <p>Sala: {salas.find(s => s.id === reserva.salaId)?.nombre}</p>
+            <p>Horas: {reserva.horas.join(", ")}</p>
+            <p>Banda: {reserva.nombreBanda}</p>
+            <p>Género: {reserva.genero}</p>
+            {reserva.instrumentos.length > 0 && (
+              <p>Instrumentos: {reserva.instrumentos.map(inst => {
+                const instrumento = instrumentos.find(i => i.id === inst.id);
+                return `${instrumento?.nombre} (${inst.horaInicio} - ${inst.horaFin})`;
+              }).join(", ")}</p>
+            )}
+          </div>
+        ))}
       </div>
 
-      <div className="mb-4">
-        <label className="block mb-2">Sala:</label>
-        <select 
-          value={salaId || ""}
-          onChange={handleSalaSelect}
-          className="w-full p-2 border rounded"
-        >
-          <option value="" style={{ color: 'white' }}>Selecciona una sala</option> {/* Color blanco */}
-          {salas.map(sala => (
-            <option key={sala.id} value={sala.id} style={{ color: 'white' }}>
-              {sala.nombre} - ${sala.valorPorHora}/hora
-            </option>
-          ))}
-        </select>
+      <h2 className="text-2xl font-bold mb-4">Reserva tu sala de ensayo</h2>
+
+      <div className="flex space-x-4 mb-4">
+        <div className="w-1/2">
+          <label className="block mb-2">Fecha:</label>
+          <input 
+            type="date" 
+            value={format(fecha, "yyyy-MM-dd")}
+            onChange={handleDateChange}
+            min={format(new Date(), "yyyy-MM-dd")}
+            max={format(addDays(new Date(), 30), "yyyy-MM-dd")}
+            className="w-full p-2 border rounded bg-black text-white"
+            onClick={(e) => e.currentTarget.showPicker()}
+          />
+        </div>
+
+        <div className="w-1/2">
+          <label className="block mb-2">Sala:</label>
+          <select 
+            value={salaId || ""}
+            onChange={handleSalaSelect}
+            className="w-full p-2 border rounded bg-black text-white"
+          >
+            <option value="">Selecciona una sala</option>
+            {salas.map(sala => (
+              <option key={sala.id} value={sala.id}>
+                {sala.nombre} - ${sala.valorPorHora}/hora
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="flex space-x-4 mb-4">
+        <div className="w-1/2">
+          <label className="block mb-2">Nombre de la banda:</label>
+          <input 
+            type="text" 
+            value={nombreBanda}
+            onChange={(e) => setNombreBanda(e.target.value)}
+            className="w-full p-2 border rounded bg-black text-white"
+            placeholder="Ingresa el nombre de tu banda"
+          />
+        </div>
+
+        <div className="w-1/2">
+          <label className="block mb-2">Género musical:</label>
+          <input 
+            type="text" 
+            value={genero}
+            onChange={(e) => setGenero(e.target.value)}
+            className="w-full p-2 border rounded bg-black text-white"
+            placeholder="Ingresa el género musical"
+          />
+        </div>
       </div>
 
       {salaId !== null && (
-        <div className="mb-4 hours-container">
-          <h2>Horas disponibles:</h2>
-          <div className="grid grid-cols-4 gap-4">
+        <div className="mb-4">
+          <h2 className="text-xl font-bold mb-2">Horas disponibles:</h2>
+          <div className="grid grid-cols-7 gap-2">
             {horas.map((hora) => (
               <button 
                 key={hora} 
                 data-hora={hora}
-                className={`hour-button ${horasSeleccionadas.includes(hora) ? 'selected' : ''} ${!isHoraDisponible(hora) ? 'disabled' : ''}`}
+                className={`p-2 border rounded ${
+                  horasSeleccionadas.includes(hora) ? 'bg-blue-500' : 'bg-gray-700'
+                } ${!isHoraDisponible(hora) ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={() => toggleHora(hora)}
-                disabled={!isHoraDisponible(hora)} // Deshabilita el botón si no está disponible
+                disabled={!isHoraDisponible(hora)}
               >
                 {hora}
               </button>
             ))}
           </div>
+          <Button onClick={resetHoras} className="mt-2 bg-red-500 text-white p-2 rounded">
+            Resetear horas
+          </Button>
         </div>
       )}
 
@@ -305,20 +371,9 @@ export default function RehearsalRoomBooking() {
         <strong>Total: ${totalValor}</strong>
       </div>
 
-      <Button onClick={handleReserva} disabled={salaId === null || horasSeleccionadas.length === 0}>
+      <Button onClick={handleReserva} className="bg-cyan-400 text-black font-bold py-2 px-4 rounded" disabled={salaId === null || horasSeleccionadas.length === 0}>
         Confirmar Reserva
       </Button>
-
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">Reservas actuales</h2>
-        {reservas.map((reserva, index) => (
-          <div key={index} className="mb-2 p-2 border rounded">
-            <p>Fecha: {format(reserva.fecha, "dd 'de' MMMM", { locale: es })}</p>
-            <p>Sala: {salas.find(s => s.id === reserva.salaId)?.nombre}</p>
-            <p>Horas: {reserva.horas.join(", ")}</p>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }
