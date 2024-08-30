@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255; /* Cambiado a blanco para un contraste más fuerte */
-  --background-start-rgb: 20, 20, 20; /* Fondo más oscuro */
-  --background-end-rgb: 30, 30, 30; /* Fondo más oscuro */
-  --accent-color: 0, 255, 255; /* Color de acento futurista */
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 20, 20, 20;
+  --background-end-rgb: 30, 30, 30;
+  --accent-color: 0, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,12 +24,12 @@ body {
       rgb(var(--background-start-rgb)),
       rgb(var(--background-end-rgb))
     );
-  font-family: 'Roboto', sans-serif; /* Fuente moderna */
-  transition: background 0.5s ease; /* Transición suave */
+  font-family: 'Roboto', sans-serif;
+  transition: background 0.5s ease;
 }
 
 button {
-  background-color: rgba(var(--accent-color), 0.8); /* Botones con color de acento */
+  background-color: rgba(var(--accent-color), 0.8);
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -39,19 +39,18 @@ button {
 }
 
 button:hover {
-  background-color: rgba(var(--accent-color), 1); /* Efecto hover */
+  background-color: rgba(var(--accent-color), 1);
 }
 
-/* Estilo común para inputs y selects */
 .date-input, select {
     color: rgb(var(--foreground-rgb));
     background-color: rgba(40, 40, 40, 0.8);
     border: 1px solid rgba(var(--accent-color), 0.5);
     border-radius: 5px;
-    padding: 10px 30px 10px 10px; /* Aumentado el padding derecho para el ícono */
+    padding: 10px 30px 10px 10px;
     transition: all 0.3s ease;
     cursor: pointer;
-    appearance: none; /* Elimina los estilos por defecto del navegador */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300ffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
@@ -70,80 +69,94 @@ button:hover {
     background-color: rgba(var(--accent-color), 0.2);
 }
 
-/* Estilo específico para las opciones del select */
 select option {
     background-color: rgb(40, 40, 40);
     color: rgb(var(--foreground-rgb));
 }
 
-/* Eliminar la flecha por defecto en IE */
 select::-ms-expand {
     display: none;
 }
 
-/* Estilo para la fecha */
 .date-input {
-  color: rgba(255, 255, 255, 0.8); /* Color menos intenso */
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
-  border: 1px solid rgba(0, 255, 255, 0.5); /* Borde de acento */
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.5);
   border-radius: 5px;
   padding: 10px;
   transition: background 0.3s ease;
 }
 
 .date-input:focus {
-  background-color: rgba(0, 255, 255, 0.2); /* Efecto al enfocar */
+  background-color: rgba(0, 255, 255, 0.2);
 }
 
-/* Estilo para el select */
 select {
-    color: rgb(var(--foreground-rgb)); /* Texto blanco */
-    background-color: rgba(20, 20, 20, 0.8); /* Fondo oscuro */
-    border: 1px solid rgba(0, 255, 255, 0.5); /* Borde de acento */
+    color: rgb(var(--foreground-rgb));
+    background-color: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(0, 255, 255, 0.5);
     border-radius: 5px;
     padding: 10px;
     transition: background 0.3s ease;
 }
 
-/* Estilo para las opciones del select */
 select option {
-    color: rgb(var(--foreground-rgb)); /* Texto blanco */
-    background-color: rgba(20, 20, 20, 0.8); /* Fondo oscuro */
+    color: rgb(var(--foreground-rgb));
+    background-color: rgba(20, 20, 20, 0.8);
 }
 
 select:focus {
-    background-color: rgba(0, 255, 255, 0.2); /* Efecto al enfocar */
+    background-color: rgba(0, 255, 255, 0.2);
 }
 
-/* Estilo para los botones de selección de hora */
 .hour-button {
-    background-color: rgb(0, 0, 0); /* Fondo negro por defecto */
-    color: rgb(255, 255, 255); /* Texto blanco por defecto */
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 5px;
     padding: 10px 15px;
     margin: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .hour-button:hover:not(:disabled) {
-    background-color: rgb(64, 64, 64); /* Fondo gris oscuro al pasar el mouse */
-    color: rgb(255, 255, 255); /* Texto blanco al pasar el mouse */
+    background-color: rgb(64, 64, 64);
+    color: rgb(255, 255, 255);
 }
 
 .hour-button.selected {
-    background-color: rgb(255, 255, 255); /* Fondo blanco cuando está seleccionado */
-    color: rgb(0, 0, 0); /* Texto negro cuando está seleccionado */
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.hour-button.selected:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
 }
 
 .hour-button:disabled {
-    background-color: rgb(128, 128, 128); /* Fondo gris cuando está deshabilitado */
-    color: rgb(200, 200, 200); /* Texto gris claro cuando está deshabilitado */
+    background-color: rgb(128, 128, 128);
+    color: rgb(200, 200, 200);
     cursor: not-allowed;
 }
 
-/* Estilos para el contenedor del calendario */
+.hours-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
 .calendar-container {
   position: fixed;
   top: 0;
@@ -158,7 +171,6 @@ select:focus {
   padding: 20px;
 }
 
-/* Estilos para el calendario */
 .calendar {
   width: 100%;
   max-width: 400px;
@@ -168,7 +180,6 @@ select:focus {
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 
-/* Estilos para el encabezado del calendario */
 .calendar-header {
   background-color: rgb(0, 255, 255);
   color: rgb(0, 0, 0);
@@ -179,7 +190,6 @@ select:focus {
   align-items: center;
 }
 
-/* Estilos para los días de la semana */
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -188,7 +198,6 @@ select:focus {
   background-color: rgb(40, 40, 40);
 }
 
-/* Estilos para los días */
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -216,7 +225,6 @@ select:focus {
   color: rgb(0, 0, 0);
 }
 
-/* Estilos para los botones de navegación */
 .calendar-nav {
   background: none;
   border: none;
@@ -225,7 +233,6 @@ select:focus {
   cursor: pointer;
 }
 
-/* Estilos para el botón de cerrar */
 .calendar-close {
   position: absolute;
   top: 10px;
@@ -237,56 +244,100 @@ select:focus {
   cursor: pointer;
 }
 
-/* Media queries para responsividad */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   body {
-    font-size: 16px; /* Aumentar tamaño de fuente base */
+    font-size: 14px;
   }
 
   .form-container {
-    padding: 20px; /* Añadir padding al contenedor */
+    padding: 15px;
   }
 
   h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 22px;
+    margin-bottom: 15px;
   }
 
   .form-group {
-    margin-bottom: 20px; /* Aumentar espacio entre grupos de formulario */
+    margin-bottom: 15px;
   }
 
   .date-input, select {
     width: 100%;
-    height: 50px;
-    font-size: 16px;
-    padding: 10px;
+    height: 40px;
+    font-size: 14px;
+    padding: 8px;
   }
 
   .hours-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
 
   .hour-button {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    padding: 0;
-    border-radius: 8px;
+    height: 36px;
+    font-size: 12px;
+    padding: 4px;
   }
 
   input[type="checkbox"] {
-    width: 20px; /* Aumentar tamaño de checkboxes */
-    height: 20px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .calendar {
+    max-width: 300px;
+  }
+
+  .calendar-day {
+    font-size: 0.8rem;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+
+  .form-container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  .date-input, select {
+    height: 36px;
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .hours-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hour-button {
+    height: 32px;
+    font-size: 11px;
+    padding: 3px;
+  }
+
+  input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  .calendar {
+    max-width: 250px;
+  }
+
   .calendar-day {
     font-size: 0.7rem;
   }
@@ -294,8 +345,18 @@ select:focus {
   .calendar-weekdays {
     font-size: 0.7rem;
   }
+}
 
+@media (max-width: 360px) {
   .hours-container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .calendar {
+    max-width: 200px;
+  }
+
+  .calendar-day, .calendar-weekdays {
+    font-size: 0.6rem;
   }
 }
