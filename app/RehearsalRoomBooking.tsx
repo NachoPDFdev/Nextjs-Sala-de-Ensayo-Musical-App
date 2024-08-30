@@ -48,15 +48,20 @@ const horas = [
 ]
 
 // Components
-const Button = ({ children, onClick, className = "", disabled = false }) => (
-  <button
-    onClick={onClick}
-    disabled={disabled}
-    className={`px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${className} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-  >
-    {children}
-  </button>
-)
+const Button = ({ children, onClick, className = "", disabled = false }: { 
+    children: React.ReactNode; // Definir el tipo de children
+    onClick: () => void; 
+    className?: string; 
+    disabled?: boolean; 
+}) => (
+    <button
+        onClick={onClick}
+        disabled={disabled}
+        className={className}
+    >
+        {children}
+    </button>
+);
 
 export default function RehearsalRoomBooking() {
   const [fecha, setFecha] = useState<Date>(new Date())
